@@ -16,7 +16,7 @@
     <!-- Main Content -->
     <div class="w-full flex items-center justify-center p-8 lg:p-12">
       
-      <!-- Download Card -->
+      <!-- Download -->
       <div class="w-full max-w-4xl p-8 rounded-3xl shadow-xl border border-white/10 relative overflow-hidden"
           :class="isDark ? 'bg-neutral-900/95' : 'bg-white/95'">
           
