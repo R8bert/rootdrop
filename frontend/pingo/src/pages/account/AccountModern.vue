@@ -819,9 +819,9 @@ const fetchAdminData = async () => {
     if (statsResponse.ok) {
       const stats = await statsResponse.json()
       adminStats.value = {
-        totalUsers: stats.totalUsers,
-        totalUploads: stats.totalUploads,
-        totalStorage: stats.storageUsed
+        totalUsers: Number(stats.total_users || 0),
+        totalUploads: Number(stats.total_uploads || 0),
+        totalStorage: Number(stats.storage_used || 0)
       }
     }
 
