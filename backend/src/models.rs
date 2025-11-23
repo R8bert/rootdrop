@@ -21,21 +21,22 @@ pub struct User {
 pub struct Settings {
     pub id: i32,
     pub theme: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if = "Option::is_none", rename = "logo")]
     pub logo_path: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if = "Option::is_none", rename = "backgroundImage")]
     pub background_path: Option<String>,
+    #[serde(rename = "navbarTitle")]
     pub navbar_title: String,
+    #[serde(rename = "maxUploadSize")]
     pub max_upload_size: i64,
-    pub upload_box_transparency: i32,
+    #[serde(rename = "blurIntensity")]
     pub blur_intensity: i32,
+    #[serde(rename = "maxValidity")]
     pub max_validity: String,
+    #[serde(rename = "allowRegistration")]
     pub allow_registration: bool,
+    #[serde(rename = "expirationAction")]
     pub expiration_action: String,
-    pub website_color: String,
-    pub gradient_color_1: String,
-    pub gradient_color_2: String,
-    pub gradient_color_3: String,
 }
 
 impl Default for Settings {
@@ -45,17 +46,12 @@ impl Default for Settings {
             theme: "light".to_string(),
             logo_path: None,
             background_path: None,
-            navbar_title: "RootDrop".to_string(),
+            navbar_title: "PinGO".to_string(),
             max_upload_size: 104857600, // 100MB
-            upload_box_transparency: 0,
             blur_intensity: 0,
             max_validity: "7days".to_string(),
             allow_registration: true,
             expiration_action: "unavailable".to_string(),
-            website_color: "#3b82f6".to_string(),
-            gradient_color_1: "#3b82f6".to_string(),
-            gradient_color_2: "#8b5cf6".to_string(),
-            gradient_color_3: "#ec4899".to_string(),
         }
     }
 }

@@ -105,14 +105,6 @@ pub async fn update_settings(
         }
     }
 
-    if let Some(transparency) = form_data.get("uploadBoxTransparency") {
-        if let Ok(val) = transparency.parse::<i32>() {
-            if (0..=100).contains(&val) {
-                settings.upload_box_transparency = val;
-            }
-        }
-    }
-
     if let Some(blur) = form_data.get("blurIntensity") {
         if let Ok(val) = blur.parse::<i32>() {
             if (0..=24).contains(&val) {
@@ -130,31 +122,6 @@ pub async fn update_settings(
     if let Some(exp_action) = form_data.get("expirationAction") {
         if exp_action == "delete" || exp_action == "unavailable" {
             settings.expiration_action = exp_action.clone();
-        }
-    }
-
-    // Handle color fields
-    if let Some(color) = form_data.get("websiteColor") {
-        if color.len() == 7 && color.starts_with('#') {
-            settings.website_color = color.clone();
-        }
-    }
-
-    if let Some(color) = form_data.get("gradientColor1") {
-        if color.len() == 7 && color.starts_with('#') {
-            settings.gradient_color_1 = color.clone();
-        }
-    }
-
-    if let Some(color) = form_data.get("gradientColor2") {
-        if color.len() == 7 && color.starts_with('#') {
-            settings.gradient_color_2 = color.clone();
-        }
-    }
-
-    if let Some(color) = form_data.get("gradientColor3") {
-        if color.len() == 7 && color.starts_with('#') {
-            settings.gradient_color_3 = color.clone();
         }
     }
 
@@ -218,8 +185,8 @@ pub async fn update_settings(
     if settings.id == 0 {
         let id: (i32,) = sqlx::query_as(
             r#"
-            INSERT INTO settings (theme, logo_path, background_path, navbar_title, max_upload_size, upload_box_transparency, blur_intensity, max_validity, allow_registration, expiration_action, website_color, gradient_color_1, gradient_color_2, gradient_color_3)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING id
+            INSERT INTO settings (theme, logo_path, background_path, navbar_title, max_upload_size, blur_intensity, max_validity, allow_registration, expiration_action)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id
             "#
         )
         .bind(&settings.theme)
@@ -227,15 +194,10 @@ pub async fn update_settings(
         .bind(&settings.background_path)
         .bind(&settings.navbar_title)
         .bind(settings.max_upload_size)
-        .bind(settings.upload_box_transparency)
         .bind(settings.blur_intensity)
         .bind(&settings.max_validity)
         .bind(settings.allow_registration)
         .bind(&settings.expiration_action)
-        .bind(&settings.website_color)
-        .bind(&settings.gradient_color_1)
-        .bind(&settings.gradient_color_2)
-        .bind(&settings.gradient_color_3)
         .fetch_one(pool.as_ref())
         .await
         .map_err(error::ErrorInternalServerError)?;
@@ -245,9 +207,8 @@ pub async fn update_settings(
         sqlx::query(
             r#"
             UPDATE settings SET theme = $1, logo_path = $2, background_path = $3, navbar_title = $4, max_upload_size = $5,
-            upload_box_transparency = $6, blur_intensity = $7, max_validity = $8, allow_registration = $9, expiration_action = $10,
-            website_color = $11, gradient_color_1 = $12, gradient_color_2 = $13, gradient_color_3 = $14, updated_at = CURRENT_TIMESTAMP
-            WHERE id = $15
+            blur_intensity = $6, max_validity = $7, allow_registration = $8, expiration_action = $9, updated_at = CURRENT_TIMESTAMP
+            WHERE id = $10
             "#
         )
         .bind(&settings.theme)
@@ -255,15 +216,10 @@ pub async fn update_settings(
         .bind(&settings.background_path)
         .bind(&settings.navbar_title)
         .bind(settings.max_upload_size)
-        .bind(settings.upload_box_transparency)
         .bind(settings.blur_intensity)
         .bind(&settings.max_validity)
         .bind(settings.allow_registration)
         .bind(&settings.expiration_action)
-        .bind(&settings.website_color)
-        .bind(&settings.gradient_color_1)
-        .bind(&settings.gradient_color_2)
-        .bind(&settings.gradient_color_3)
         .bind(settings.id)
         .execute(pool.as_ref())
         .await

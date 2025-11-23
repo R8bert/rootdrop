@@ -312,21 +312,12 @@
       </div>
     </div>
 
-    <!-- Success Message -->
-    <div v-if="message" 
-         class="fixed bottom-6 right-6 p-4 rounded-2xl shadow-2xl z-50 backdrop-blur-xl border transition-all duration-300"
-         :class="message.type === 'success' 
-           ? (isDark ? 'bg-green-500/20 border-green-500/30 text-green-400' : 'bg-green-100 border-green-200 text-green-700')
-           : (isDark ? 'bg-red-500/20 border-red-500/30 text-red-400' : 'bg-red-100 border-red-200 text-red-700')">
-      {{ message.text }}
-    </div>
-
     <!-- GitHub Icon -->
     <a 
       href="https://github.com/R8bert/PInGO-Share" 
       target="_blank" 
       rel="noopener noreferrer" 
-      class="fixed bottom-4 left-4 z-40 p-2 rounded-lg backdrop-blur-sm transition-all duration-300 hover:scale-110"
+      class="fixed bottom-4 left-4 z-40 p-2 rounded-lg backdrop-blur-sm transition-all duration-300 hover:scale-140"
       :class="isDark ? 'text-gray-400 hover:text-white bg-white/5' : 'text-gray-600 hover:text-gray-900 bg-white/50'"
       title="View GitHub Repository"
     >

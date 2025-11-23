@@ -20,10 +20,7 @@
             class="absolute -bottom-2 -right-2 w-8 h-8 bg-blue-600 hover:bg-blue-700 text-white rounded-full flex items-center justify-center shadow-lg transition-colors"
             title="Change avatar"
           >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
-            </svg>
+            <IconCamera class="w-4 h-4" />
           </button>
           <input 
             ref="avatarInput" 
@@ -290,9 +287,7 @@
                 backgroundColor: isDark ? '#374151' : '#f3f4f6',
                 color: isDark ? '#9ca3af' : '#6b7280'
               }">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
+        <IconClose class="w-5 h-5" />
       </button>
 
       <!-- Dialog content -->
@@ -300,10 +295,7 @@
         <!-- Animated avatar icon -->
         <div class="w-20 h-20 mx-auto mb-6 rounded-2xl flex items-center justify-center animate-avatar-pulse"
              :style="{ backgroundColor: isDark ? '#3b82f6' : '#60a5fa' }">
-          <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2-2H5a2 2 0 01-2-2V9z"></path>
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
-          </svg>
+          <IconCamera class="w-10 h-10 text-white" />
         </div>
 
         <!-- Animated title -->
@@ -378,9 +370,7 @@
                 backgroundColor: isDark ? '#374151' : '#f3f4f6',
                 color: isDark ? '#9ca3af' : '#6b7280'
               }">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
+        <IconClose class="w-5 h-5" />
       </button>
 
       <!-- Dialog content -->
@@ -388,9 +378,7 @@
         <!-- Animated warning icon -->
         <div class="w-20 h-20 mx-auto mb-6 rounded-2xl flex items-center justify-center animate-pulse"
              :style="{ backgroundColor: isDark ? '#dc2626' : '#fca5a5' }">
-          <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-          </svg>
+          <IconTrashDelete class="w-10 h-10 text-white" />
         </div>
 
         <!-- Title -->
@@ -438,19 +426,21 @@ import UsersTab from './components/UsersTab.vue'
 import SettingsTab from './components/SettingsTab.vue'
 
 // Iconify imports
-import IconUser from '~icons/heroicons/user'
-import IconCalendar from '~icons/solar/calendar-minimalistic-bold-duotone'
-import IconShieldCheck from '~icons/solar/verified-check-bold-duotone'
-import IconCloudArrowUp from '~icons/heroicons/cloud-arrow-up'
-import IconArchiveBox from '~icons/heroicons/archive-box'
-import IconClock from '~icons/heroicons/clock'
-import IconFolder from '~icons/heroicons/folder'
-import IconShare from '~icons/heroicons/share'
-import IconChartBar from '~icons/heroicons/chart-bar'
-import IconUsers from '~icons/heroicons/users'
-import IconCog from '~icons/heroicons/cog'
-import IconClipboardDocument from '~icons/heroicons/clipboard-document'
-
+import IconUser from '~icons/heroicons/user-solid'
+import IconCalendar from '~icons/heroicons/calendar-solid'
+import IconShieldCheck from '~icons/heroicons/shield-check-solid'
+import IconCloudArrowUp from '~icons/heroicons/cloud-arrow-up-solid'
+import IconArchiveBox from '~icons/heroicons/archive-box-solid'
+import IconClock from '~icons/heroicons/clock-solid'
+import IconFolder from '~icons/heroicons/folder-solid'
+import IconShare from '~icons/heroicons/share-solid'
+import IconChartBar from '~icons/heroicons/chart-bar-solid'
+import IconUsers from '~icons/heroicons/user-group-solid'
+import IconCog from '~icons/heroicons/cog-6-tooth-solid'
+import IconClipboardDocument from '~icons/heroicons/clipboard-document-solid'
+import IconCamera from '~icons/heroicons/camera-solid'
+import IconClose from '~icons/heroicons/x-mark-solid'
+import IconTrashDelete from '~icons/heroicons/trash-solid'
 
 const { user, uploads, isAuthenticated, isAdmin, isLoading, fetchCurrentUser, fetchUploads, deleteUpload } = useAuth()
 const { isDark } = useTheme()

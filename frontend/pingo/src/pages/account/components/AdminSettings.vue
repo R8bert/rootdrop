@@ -1,22 +1,55 @@
 <template>
-  <div class="space-y-8">
-    <div class="text-center">
-      <h2 class="text-2xl font-bold mb-2 transition-colors duration-300"
-          :style="{ color: isDark ? '#f9fafb' : '#111827' }">Admin Settings</h2>
-      <p class="transition-colors duration-300"
-         :style="{ color: isDark ? '#9ca3af' : '#4b5563' }">Configure global application settings</p>
+  <div class="space-y-6">
+    <!-- Header with Galaxy background -->
+    <div class="relative overflow-hidden rounded-3xl p-8 text-center">
+      <!-- Galaxy WebGL Background -->
+      <div class="absolute inset-0 bg-black rounded-3xl">
+        <Galaxy
+          :focal="[0.5, 0.5]"
+          :rotation="[1.0, 0.0]"
+          :star-speed="0.2"
+          :density="0.2"
+          :hue-shift="10"
+          :speed="0.2"
+          :mouse-interaction="false"
+          :glow-intensity="0.2"
+          :saturation="0"
+          :mouse-repulsion="true"
+          :twinkle-intensity="4.5"
+          :rotation-speed="0.1"
+          :repulsion-strength="0"
+          :transparent="true"
+          class="w-full h-full"
+        />
+      </div>
+      <div class="relative">
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-black mb-4 shadow-lg">
+          <IconSettings class="w-8 h-8 text-white" />
+        </div>
+        <h2 class="text-3xl font-bold mb-2 transition-colors duration-300 text-white">Admin Settings</h2>
+        <p class="text-lg transition-colors duration-300 text-gray-300">Configure and customize your application</p>
+      </div>
     </div>
 
     <form @submit.prevent="saveSettings" class="space-y-6">
       <!-- Maximum Validity Setting -->
-      <div class="border rounded-xl p-6 transition-all duration-200"
-           :class="isDark ? 'bg-gray-800/50 border-gray-700/50' : 'bg-white border-gray-200'">
-        <h3 class="text-lg font-semibold mb-4 flex items-center"
-            :class="isDark ? 'text-gray-100' : 'text-gray-900'">
-          <IconClock class="w-5 h-5 mr-2"
-                     :class="isDark ? 'text-gray-400' : 'text-gray-600'" />
-          Maximum File Validity
-        </h3>
+      <div class="border rounded-2xl p-6 transition-all duration-300 hover:shadow-lg"
+           :class="isDark ? 'bg-gray-800/50 border-gray-700/50 hover:border-blue-500/50' : 'bg-white border-gray-200 hover:border-blue-300'">
+        <div class="flex items-center mb-6">
+          <div class="p-3 rounded-xl mr-3"
+               :style="{ backgroundColor: isDark ? '#1e3a8a' : '#dbeafe' }">
+            <IconClock class="w-6 h-6"
+                       :style="{ color: isDark ? '#60a5fa' : '#2563eb' }" />
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold"
+                :class="isDark ? 'text-gray-100' : 'text-gray-900'">
+              Maximum File Validity
+            </h3>
+            <p class="text-sm opacity-70"
+               :class="isDark ? 'text-gray-400' : 'text-gray-600'">Set the maximum expiration period for uploads</p>
+          </div>
+        </div>
         <div class="grid grid-cols-1 sm:grid-cols-5 gap-3">
           <label
             v-for="option in validityOptions"
@@ -51,14 +84,19 @@
       </div>
 
       <!-- User Registration Setting -->
-      <div class="border rounded-xl p-6 transition-all duration-200"
-           :class="isDark ? 'bg-gray-800/50 border-gray-700/50' : 'bg-white border-gray-200'">
-        <h3 class="text-lg font-semibold mb-4 flex items-center"
-            :class="isDark ? 'text-gray-100' : 'text-gray-900'">
-          <IconUserGroup class="w-5 h-5 mr-2"
-                         :class="isDark ? 'text-gray-400' : 'text-gray-600'" />
-          User Registration
-        </h3>
+      <div class="border rounded-2xl p-6 transition-all duration-300 hover:shadow-lg"
+           :class="isDark ? 'bg-gray-800/50 border-gray-700/50 hover:border-green-500/50' : 'bg-white border-gray-200 hover:border-green-300'">
+        <div class="flex items-center mb-4">
+          <div class="p-3 rounded-xl mr-3"
+               :style="{ backgroundColor: isDark ? '#065f46' : '#d1fae5' }">
+            <IconUserGroup class="w-6 h-6"
+                           :style="{ color: isDark ? '#34d399' : '#059669' }" />
+          </div>
+          <h3 class="text-lg font-semibold"
+              :class="isDark ? 'text-gray-100' : 'text-gray-900'">
+            User Registration
+          </h3>
+        </div>
         <div class="flex items-center justify-between">
           <div>
             <p class="text-sm font-medium"
@@ -83,14 +121,19 @@
       </div>
 
       <!-- File Expiration Behavior Setting -->
-      <div class="border rounded-xl p-6 transition-all duration-200"
-           :class="isDark ? 'bg-gray-800/50 border-gray-700/50' : 'bg-white border-gray-200'">
-        <h3 class="text-lg font-semibold mb-4 flex items-center"
-            :class="isDark ? 'text-gray-100' : 'text-gray-900'">
-          <IconClock class="w-5 h-5 mr-2"
-                     :class="isDark ? 'text-gray-400' : 'text-gray-600'" />
-          File Expiration Behavior
-        </h3>
+      <div class="border rounded-2xl p-6 transition-all duration-300 hover:shadow-lg"
+           :class="isDark ? 'bg-gray-800/50 border-gray-700/50 hover:border-orange-500/50' : 'bg-white border-gray-200 hover:border-orange-300'">
+        <div class="flex items-center mb-4">
+          <div class="p-3 rounded-xl mr-3"
+               :style="{ backgroundColor: isDark ? '#7c2d12' : '#fed7aa' }">
+            <IconTrash class="w-6 h-6"
+                       :style="{ color: isDark ? '#fb923c' : '#ea580c' }" />
+          </div>
+          <h3 class="text-lg font-semibold"
+              :class="isDark ? 'text-gray-100' : 'text-gray-900'">
+            File Expiration Behavior
+          </h3>
+        </div>
         <p class="text-sm mb-4 opacity-70"
            :class="isDark ? 'text-gray-400' : 'text-gray-600'">
           Choose what happens to files when they expire
@@ -115,9 +158,7 @@
               class="sr-only"
             />
             <div class="flex items-center mb-2">
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L12 12m-3.122-3.122L9.878 9.878"></path>
-              </svg>
+              <IconEyeOff class="w-5 h-5 mr-2" />
               <span class="font-medium">Make Unavailable</span>
             </div>
             <p class="text-sm opacity-70">Files become inaccessible but remain on the server</p>
@@ -142,9 +183,7 @@
               class="sr-only"
             />
             <div class="flex items-center mb-2">
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-              </svg>
+              <IconDelete class="w-5 h-5 mr-2" />
               <span class="font-medium">Delete Files</span>
             </div>
             <p class="text-sm opacity-70">Files are permanently removed from the server</p>
@@ -212,14 +251,23 @@
       </div>
 
       <!-- Branding Settings -->
-      <div class="border rounded-xl p-6 transition-all duration-200"
-           :class="isDark ? 'bg-gray-800/50 border-gray-700/50' : 'bg-white border-gray-200'">
-        <h3 class="text-lg font-semibold mb-4 flex items-center"
-            :class="isDark ? 'text-gray-100' : 'text-gray-900'">
-          <IconPhoto class="w-5 h-5 mr-2"
-                     :class="isDark ? 'text-gray-400' : 'text-gray-600'" />
-          Branding
-        </h3>
+      <div class="border rounded-2xl p-6 transition-all duration-300 hover:shadow-lg"
+           :class="isDark ? 'bg-gray-800/50 border-gray-700/50 hover:border-purple-500/50' : 'bg-white border-gray-200 hover:border-purple-300'">
+        <div class="flex items-center mb-6">
+          <div class="p-3 rounded-xl mr-3"
+               :style="{ backgroundColor: isDark ? '#581c87' : '#f3e8ff' }">
+            <IconPhoto class="w-6 h-6"
+                       :style="{ color: isDark ? '#c084fc' : '#9333ea' }" />
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold"
+                :class="isDark ? 'text-gray-100' : 'text-gray-900'">
+              Branding & Identity
+            </h3>
+            <p class="text-sm opacity-70"
+               :class="isDark ? 'text-gray-400' : 'text-gray-600'">Customize your application's look and feel</p>
+          </div>
+        </div>
         <div class="space-y-6">
           <!-- Application Title -->
           <div>
@@ -295,98 +343,20 @@
       </div>
 
       <!-- Color Customization Settings -->
-      <div class="border rounded-xl p-6 transition-all duration-200"
-           :class="isDark ? 'bg-gray-800/50 border-gray-700/50' : 'bg-white border-gray-200'">
-        <h3 class="text-lg font-semibold mb-4 flex items-center"
-            :class="isDark ? 'text-gray-100' : 'text-gray-900'">
-          <IconSwatch class="w-5 h-5 mr-2"
-                      :class="isDark ? 'text-gray-400' : 'text-gray-600'" />
-          Color Customization
-        </h3>
-        
-        <div class="space-y-6">
-          <!-- Website Color -->
-          <div>
-            <ColorPicker
-              v-model="settings.websiteColor"
-              label="Website Color (WebGL Background)"
-              input-id="website-color"
-            />
-            <p class="text-sm mt-2 opacity-70"
-               :class="isDark ? 'text-gray-400' : 'text-gray-500'">
-              Primary color used for the WebGL background animation on home and download pages.
-            </p>
-          </div>
-
-          <!-- UI Gradient Colors -->
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <div>
-                <h4 class="font-medium"
-                    :class="isDark ? 'text-gray-100' : 'text-gray-900'">
-                  UI Gradient Colors
-                </h4>
-                <p class="text-sm opacity-70"
-                   :class="isDark ? 'text-gray-400' : 'text-gray-500'">
-                  Colors used for buttons and UI elements gradients.
-                </p>
-              </div>
-              <button
-                @click="showGradientDialog = true"
-                type="button"
-                class="px-4 py-2 bg-blue-600 text-white font-medium rounded-lg transition-all duration-200 hover:bg-blue-700"
-              >
-                Configure Gradient
-              </button>
-            </div>
-
-            <!-- Gradient Preview -->
-            <div class="h-16 rounded-lg border shadow-sm relative overflow-hidden"
-                 :class="isDark ? 'border-gray-600' : 'border-gray-300'"
-                 :style="{ background: currentGradient }">
-              <div class="absolute inset-0 flex items-center justify-center">
-                <span class="text-white font-semibold drop-shadow-lg">
-                  Current UI Gradient
-                </span>
-              </div>
-            </div>
-
-            <!-- Individual Color Pickers (for fine-tuning) -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <ColorPicker
-                v-model="settings.gradientColor1"
-                label="Color 1"
-                input-id="gradient-color-1"
-                :show-presets="false"
-              />
-              <ColorPicker
-                v-model="settings.gradientColor2"
-                label="Color 2"
-                input-id="gradient-color-2"
-                :show-presets="false"
-              />
-              <ColorPicker
-                v-model="settings.gradientColor3"
-                label="Color 3"
-                input-id="gradient-color-3"
-                :show-presets="false"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+  
 
       <!-- Save Button -->
-      <div class="flex justify-end">
+      <div class="flex justify-end pt-4">
         <button
           type="submit"
           :disabled="isLoading"
-          class="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
+          class="group relative px-10 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold rounded-2xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl hover:scale-105 overflow-hidden"
         >
-          <div class="flex items-center">
-            <IconScale v-if="!isLoading" class="w-5 h-5 mr-2" />
-            <div v-else class="w-5 h-5 mr-2 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
-            {{ isLoading ? 'Saving...' : 'Save Settings' }}
+          <div class="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div class="relative flex items-center">
+            <IconSave v-if="!isLoading" class="w-6 h-6 mr-2" />
+            <div v-else class="w-6 h-6 mr-2 animate-spin rounded-full border-3 border-white border-t-transparent"></div>
+            {{ isLoading ? 'Saving Changes...' : 'Save All Settings' }}
           </div>
         </button>
       </div>
@@ -407,36 +377,25 @@
         </div>
       </div>
     </div>
-
-    <!-- Gradient Configuration Dialog -->
-    <GradientDialog
-      :is-open="showGradientDialog"
-      title="Configure UI Gradient Colors"
-      :initial-colors="{
-        color1: settings.gradientColor1,
-        color2: settings.gradientColor2,
-        color3: settings.gradientColor3
-      }"
-      @close="showGradientDialog = false"
-      @apply="applyGradientColors"
-    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useAuth } from '../../../composables/useAuth'
 import { useTheme } from '../../../composables/useTheme'
 import { getAssetUrl } from '../../../utils/apiUtils'
-import ColorPicker from '../../../components/ColorPicker.vue'
-import GradientDialog from '../../../components/GradientDialog.vue'
-import IconClock from '~icons/solar/clock-circle-bold'
-import IconUserGroup from '~icons/solar/users-group-two-rounded-bold'
-import IconCloudArrowUp from '~icons/solar/cloud-upload-bold'
-import IconPhoto from '~icons/solar/gallery-bold'
-import IconSwatch from '~icons/solar/palette-bold'
-import IconScale from '~icons/solar/scale-bold'
-import IconCheckCircle from '~icons/solar/check-circle-bold'
+import Galaxy from '../../../blocks/Backgrounds/Galaxy/Galaxy.vue'
+import IconSettings from '~icons/heroicons/cog-8-tooth'
+import IconClock from '~icons/heroicons/clock'
+import IconUserGroup from '~icons/heroicons/user-group'
+import IconCloudArrowUp from '~icons/heroicons/cloud-arrow-up'
+import IconPhoto from '~icons/heroicons/photo'
+import IconSave from '~icons/heroicons/arrow-down-tray'
+import IconCheckCircle from '~icons/heroicons/check-circle'
+import IconTrash from '~icons/heroicons/trash'
+import IconEyeOff from '~icons/heroicons/eye-slash'
+import IconDelete from '~icons/heroicons/x-circle'
 
 const { isDark } = useTheme()
 
@@ -450,22 +409,12 @@ const settings = ref({
   blurIntensity: 0,
   maxValidity: '7days',
   allowRegistration: true,
-  expirationAction: 'unavailable',
-  websiteColor: '#3b82f6',
-  gradientColor1: '#3b82f6',
-  gradientColor2: '#8b5cf6',
-  gradientColor3: '#ec4899'
+  expirationAction: 'unavailable'
 })
 
 const logoFile = ref<File | null>(null)
 const backgroundFile = ref<File | null>(null)
 const showSuccess = ref(false)
-const showGradientDialog = ref(false)
-
-// Computed property for current gradient preview
-const currentGradient = computed(() => {
-  return `linear-gradient(135deg, ${settings.value.gradientColor1} 0%, ${settings.value.gradientColor2} 50%, ${settings.value.gradientColor3} 100%)`
-})
 
 const validityOptions = [
   { value: '7days', label: '7 Days', description: 'One week' },
@@ -491,6 +440,8 @@ const handleBackgroundUpload = (event: Event) => {
 
 const saveSettings = async () => {
   try {
+    console.log('💾 Saving settings:', settings.value)
+    
     const formData = new FormData()
     
     formData.append('navbarTitle', settings.value.navbarTitle)
@@ -499,12 +450,6 @@ const saveSettings = async () => {
     formData.append('maxValidity', settings.value.maxValidity)
     formData.append('allowRegistration', settings.value.allowRegistration.toString())
     formData.append('expirationAction', settings.value.expirationAction)
-    
-    // Append color settings
-    formData.append('websiteColor', settings.value.websiteColor)
-    formData.append('gradientColor1', settings.value.gradientColor1)
-    formData.append('gradientColor2', settings.value.gradientColor2)
-    formData.append('gradientColor3', settings.value.gradientColor3)
     
     if (logoFile.value) {
       formData.append('logo', logoFile.value)
@@ -515,6 +460,7 @@ const saveSettings = async () => {
     }
     
     const result = await saveAdminSettings(formData)
+    console.log('✅ Settings saved successfully. Response:', result)
     
     // Update local settings with response
     settings.value = { ...settings.value, ...result }
@@ -533,7 +479,7 @@ const saveSettings = async () => {
     backgroundFile.value = null
     
   } catch (error: any) {
-    console.error('Failed to save settings:', error)
+    console.error('❌ Failed to save settings:', error)
     alert('Failed to save settings: ' + error.message)
   }
 }
@@ -541,30 +487,33 @@ const saveSettings = async () => {
 const loadSettings = async () => {
   try {
     const currentSettings = await getSettings()
+    console.log('📥 RAW settings from API:', JSON.stringify(currentSettings, null, 2))
+    console.log('📊 Field by field:')
+    console.log('  - logo:', currentSettings.logo, '(type:', typeof currentSettings.logo, ')')
+    console.log('  - backgroundImage:', currentSettings.backgroundImage, '(type:', typeof currentSettings.backgroundImage, ')')
+    console.log('  - navbarTitle:', currentSettings.navbarTitle, '(type:', typeof currentSettings.navbarTitle, ')')
+    console.log('  - maxUploadSize:', currentSettings.maxUploadSize, '(type:', typeof currentSettings.maxUploadSize, ')')
+    console.log('  - blurIntensity:', currentSettings.blurIntensity, '(type:', typeof currentSettings.blurIntensity, ')')
+    console.log('  - maxValidity:', currentSettings.maxValidity, '(type:', typeof currentSettings.maxValidity, ')')
+    console.log('  - allowRegistration:', currentSettings.allowRegistration, '(type:', typeof currentSettings.allowRegistration, ')')
+    console.log('  - expirationAction:', currentSettings.expirationAction, '(type:', typeof currentSettings.expirationAction, ')')
+    
+    // Backend returns camelCase due to serde rename
     settings.value = {
-      logo: currentSettings.logo || '',
-      backgroundImage: currentSettings.backgroundImage || '',
-      navbarTitle: currentSettings.navbarTitle || 'PinGO',
-      maxUploadSize: currentSettings.maxUploadSize || 104857600,
-      blurIntensity: currentSettings.blurIntensity || 0,
-      maxValidity: currentSettings.maxValidity || '7days',
-      allowRegistration: currentSettings.allowRegistration !== undefined ? currentSettings.allowRegistration : true,
-      expirationAction: currentSettings.expirationAction || 'unavailable',
-      websiteColor: currentSettings.websiteColor || '#3b82f6',
-      gradientColor1: currentSettings.gradientColor1 || '#3b82f6',
-      gradientColor2: currentSettings.gradientColor2 || '#8b5cf6',
-      gradientColor3: currentSettings.gradientColor3 || '#ec4899'
+      logo: currentSettings.logo ?? '',
+      backgroundImage: currentSettings.backgroundImage ?? '',
+      navbarTitle: currentSettings.navbarTitle ?? 'PinGO',
+      maxUploadSize: currentSettings.maxUploadSize ?? 104857600,
+      blurIntensity: currentSettings.blurIntensity ?? 0,
+      maxValidity: currentSettings.maxValidity ?? '7days',
+      allowRegistration: currentSettings.allowRegistration ?? true,
+      expirationAction: currentSettings.expirationAction ?? 'unavailable'
     }
+    
+    console.log('✅ Final settings object:', JSON.stringify(settings.value, null, 2))
   } catch (error) {
-    console.error('Failed to load settings:', error)
+    console.error('❌ Failed to load settings:', error)
   }
-}
-
-// Apply gradient colors from dialog
-const applyGradientColors = (colors: { color1: string; color2: string; color3: string }) => {
-  settings.value.gradientColor1 = colors.color1
-  settings.value.gradientColor2 = colors.color2
-  settings.value.gradientColor3 = colors.color3
 }
 
 onMounted(() => {
