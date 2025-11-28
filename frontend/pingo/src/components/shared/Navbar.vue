@@ -11,9 +11,6 @@
           <router-link to="/account" class="nav-item" title="My Files">
             <IconFolder class="icon" />
           </router-link>
-          <router-link v-if="isAdmin" to="/admin" class="nav-item" title="Admin Panel">
-            <IconShield class="icon" />
-          </router-link>
         </template>
       </div>
 
@@ -22,6 +19,7 @@
         <div class="profile-info">
           <span class="profile-name">{{ user?.username }}</span>
         </div>
+        <router-link to="/account" class="nav-item" title="My Files">
         <div class="profile-avatar">
           <img 
             v-if="user?.avatar" 
@@ -33,6 +31,8 @@
             {{ (user?.username || 'U').charAt(0).toUpperCase() }}
           </span>
         </div>
+        </router-link>
+
         <button @click="handleLogout" class="logout-icon" title="Sign Out">
           <IconLogout />
         </button>
