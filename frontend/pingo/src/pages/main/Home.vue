@@ -690,7 +690,7 @@ const uploadFiles = async () => {
             formData.append("recipient_email", recipientEmail.value);
         }
         if (selectedValidity.value) {
-            formData.append("validity_hours", selectedValidity.value.toString());
+            formData.append("validity", selectedValidity.value);
         }
 
         const response = await axios.post(

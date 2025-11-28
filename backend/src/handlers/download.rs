@@ -184,13 +184,17 @@ pub async fn get_file_metadata(
         return Err(error::ErrorNotFound("Files not found"));
     }
 
-    Ok(HttpResponse::Ok().json(FilesMetadataResponse {
-        files: file_infos,
-        uploader: UploaderInfo {
-            username,
-            avatar: avatar.unwrap_or_default(),
-            email,
-            expiration_date,
-        },
-    }))
+    Ok(HttpResponse::Ok()
+        .insert_header(("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate"))
+        .insert_header(("Pragma", "no-cache"))
+        .insert_header(("Expires", "0"))
+        .json(FilesMetadataResponse {
+            files: file_infos,
+            uploader: UploaderInfo {
+                username,
+                avatar: avatar.unwrap_or_default(),
+                email,
+                expiration_date,
+            },
+        }))
 }
