@@ -37,21 +37,22 @@
           <div v-if="loading" class="relative text-center space-y-10 animate-fade-in">
             <!-- Modern loading spinner -->
             <div class="relative mx-auto w-32 h-32">
-              <div class="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-1 animate-spin">
+              <div class="absolute inset-0 rounded-full bg-gradient-to-r from-neutral-700 via-neutral-600 to-neutral-700 p-1 animate-spin">
                 <div class="w-full h-full rounded-full bg-white dark:bg-slate-900"></div>
               </div>
-              <div class="absolute inset-4 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 animate-spin-reverse">
+              <div class="absolute inset-4 rounded-full bg-gradient-to-r from-neutral-600 to-neutral-500 animate-spin-reverse">
                 <div class="w-full h-full rounded-full bg-white dark:bg-slate-900"></div>
               </div>
-              <div class="absolute inset-8 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 animate-pulse">
+              <div class="absolute inset-8 rounded-full bg-gradient-to-r from-neutral-500 to-neutral-400 animate-pulse">
                 <div class="w-full h-full rounded-full bg-white dark:bg-slate-900 flex items-center justify-center">
-                  <div class="w-3 h-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-bounce"></div>
+                  <div class="w-3 h-3 bg-gradient-to-r from-neutral-600 to-neutral-500 rounded-full animate-bounce"></div>
                 </div>
               </div>
             </div>
 
             <div class="space-y-4">
-              <h1 class="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent animate-gradient-x">
+              <h1 class="text-4xl lg:text-5xl font-bold transition-colors duration-300"
+                  :class="isDark ? 'text-white' : 'text-neutral-900'">
                 Preparing your files
               </h1>
               <p class="text-xl text-slate-600 dark:text-slate-400 animate-fade-in" style="animation-delay: 0.3s;">
@@ -60,9 +61,9 @@
               <!-- Progress indicator -->
               <div class="flex justify-center mt-6">
                 <div class="flex space-x-2">
-                  <div class="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style="animation-delay: 0s"></div>
-                  <div class="w-3 h-3 bg-purple-500 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
-                  <div class="w-3 h-3 bg-pink-500 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                  <div class="w-3 h-3 bg-neutral-600 rounded-full animate-bounce" style="animation-delay: 0s"></div>
+                  <div class="w-3 h-3 bg-neutral-500 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                  <div class="w-3 h-3 bg-neutral-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
                 </div>
               </div>
             </div>
@@ -74,16 +75,19 @@
             <!-- Modern Header Section -->
             <div class="text-center space-y-6 animate-fade-in" style="animation-delay: 0.1s;">
               <!-- Status badge -->
-              <div class="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border border-emerald-500/20 backdrop-blur-sm">
-                <div class="w-3 h-3 bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full animate-pulse"></div>
-                <span class="text-sm font-semibold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+              <div class="inline-flex items-center gap-3 px-6 py-3 rounded-full border backdrop-blur-sm"
+                   :class="isDark ? 'bg-neutral-700/30 border-neutral-600/40' : 'bg-neutral-200/50 border-neutral-300/40'">
+                <div class="w-3 h-3 bg-neutral-500 rounded-full animate-pulse"></div>
+                <span class="text-sm font-semibold"
+                      :class="isDark ? 'text-neutral-300' : 'text-neutral-700'">
                   {{ files.length }} file{{ files.length > 1 ? 's' : '' }} ready
                 </span>
               </div>
 
               <!-- Main title -->
               <div class="space-y-2">
-                <h1 class="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent animate-gradient-x leading-tight">
+                <h1 class="text-3xl lg:text-4xl font-bold leading-tight transition-colors duration-300"
+                    :class="isDark ? 'text-white' : 'text-neutral-900'">
                   Download Files
                 </h1>
                 <p class="text-base text-slate-600 dark:text-slate-400">
@@ -106,17 +110,18 @@
                            :alt="uploader.username"
                            class="w-full h-full object-cover"
                            @error="handleAvatarError" />
-                      <div v-else class="w-full h-full bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center">
+                      <div v-else class="w-full h-full bg-gradient-to-br from-neutral-700 to-neutral-800 flex items-center justify-center">
                         <span class="text-white text-4xl font-bold">{{ uploader.username.charAt(0).toUpperCase() }}</span>
                       </div>
                     </div>
                     <!-- Decorative ring -->
-                    <div class="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-300 -z-10"></div>
+                    <div class="absolute inset-0 rounded-2xl bg-neutral-500 opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-300 -z-10"></div>
                   </div>
 
                   <!-- User Info -->
                   <div>
-                    <h3 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">{{ uploader.username }}</h3>
+                    <h3 class="text-2xl font-bold transition-colors duration-300"
+                        :class="isDark ? 'text-white' : 'text-neutral-900'">{{ uploader.username }}</h3>
                     <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">{{ uploader.email }}</p>
                   </div>
                 </div>
@@ -124,17 +129,19 @@
                 <!-- Stats -->
                 <div class="flex-1 grid grid-cols-2 lg:grid-cols-3 gap-3">
                   <div class="text-center p-3 rounded-xl" :class="isDark ? 'bg-neutral-700/50' : 'bg-neutral-200'">
-                    <div class="text-lg font-bold text-blue-600">{{ files.length }}</div>
+                    <div class="text-lg font-bold"
+                         :class="isDark ? 'text-neutral-300' : 'text-neutral-700'">{{ files.length }}</div>
                     <div class="text-xs text-slate-600 dark:text-slate-400">Files</div>
                   </div>
                   
                   <div class="text-center p-3 rounded-xl" :class="isDark ? 'bg-neutral-700/50' : 'bg-neutral-200'">
-                    <div class="text-lg font-bold text-purple-600">{{ formatTotalSize() }}</div>
+                    <div class="text-lg font-bold"
+                         :class="isDark ? 'text-neutral-300' : 'text-neutral-700'">{{ formatTotalSize() }}</div>
                     <div class="text-xs text-slate-600 dark:text-slate-400">Size</div>
                   </div>
                   
                   <div v-if="uploader?.expirationDate" class="text-center p-3 rounded-xl" :class="isDark ? 'bg-neutral-700/50' : 'bg-neutral-200'">
-                    <div class="text-sm font-bold" :class="formatExpirationDate(uploader.expirationDate).isExpired ? 'text-red-500' : 'text-emerald-600'">
+                    <div class="text-sm font-bold" :class="formatExpirationDate(uploader.expirationDate).isExpired ? 'text-red-500' : isDark ? 'text-neutral-300' : 'text-neutral-700'">
                       {{ formatExpirationDate(uploader.expirationDate).timeLeft }}
                     </div>
                     <div class="text-xs text-slate-600 dark:text-slate-400">Expires</div>
@@ -148,7 +155,7 @@
               <button
                 @click="downloadAll"
                 :disabled="downloadingAll"
-                class="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 shadow-lg"
+                class="px-8 py-3 bg-gradient-to-r from-neutral-800 to-neutral-700 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 shadow-lg"
               >
                 <span v-if="downloadingAll" class="flex items-center justify-center gap-3">
                   <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
@@ -225,7 +232,7 @@
                       <!-- Download Button -->
                       <button @click="downloadFile(file, index)"
                               :disabled="downloadingStates[index]"
-                              class="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg transition-all duration-200 hover:scale-105 disabled:opacity-50 shadow-md text-sm">
+                              class="px-4 py-2 bg-gradient-to-r from-neutral-800 to-neutral-700 text-white font-semibold rounded-lg transition-all duration-200 hover:scale-105 disabled:opacity-50 shadow-md text-sm">
                         <span v-if="downloadingStates[index]" class="flex items-center gap-2">
                           <div class="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                           <span>...</span>
