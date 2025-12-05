@@ -5,6 +5,8 @@ mod handlers;
 mod middleware;
 mod models;
 mod utils;
+mod tui;
+mod tui_middleware;
 
 use actix_cors::Cors;
 use actix_files as fs;
@@ -12,15 +14,35 @@ use actix_web::{middleware::Logger, web, App, HttpServer};
 use config::Config;
 use sqlx::postgres::PgPoolOptions;
 use std::sync::Arc;
+use tui::{create_logger, LogLevel};
+use tui_middleware::TuiLogging;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    // Create TUI logger
+    let (tui_logger, rx) = create_logger();
+    let tui_logger = Arc::new(tui_logger);
+    
+    // Spawn TUI in separate thread
+    std::thread::spawn(move || {
+        if let Err(e) = tui::run_tui(rx) {
+            eprintln!("TUI error: {}", e);
+        }
+    });
+
+    // Give TUI time to initialize
+    std::thread::sleep(std::time::Duration::from_millis(100));
+
     // Initialize logger
     env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
 
     // Load configuration
     let config = Config::from_env();
-    log::info!("Configuration loaded");
+    tui_logger.log(
+        LogLevel::Info,
+        "Configuration loaded successfully".to_string(),
+        Some("main".to_string()),
+    );
 
     // Create database connection pool
     let db_pool = PgPoolOptions::new()
@@ -29,14 +51,22 @@ async fn main() -> std::io::Result<()> {
         .await
         .expect("Failed to connect to database");
 
-    log::info!("Database connected successfully");
+    tui_logger.log(
+        LogLevel::Info,
+        "Database connected successfully".to_string(),
+        Some("database".to_string()),
+    );
 
     // Run migrations
     db::run_migrations(&db_pool)
         .await
         .expect("Failed to run migrations");
 
-    log::info!("Database migrations completed");
+    tui_logger.log(
+        LogLevel::Info,
+        "Database migrations completed".to_string(),
+        Some("database".to_string()),
+    );
 
     // Create shared state
     let state = Arc::new(config);
@@ -45,19 +75,44 @@ async fn main() -> std::io::Result<()> {
     let port = std::env::var("SERVER_PORT").unwrap_or_else(|_| "8080".to_string());
     let bind_address = format!("0.0.0.0:{}", port);
 
-    log::info!("Starting server on {}", bind_address);
+    tui_logger.log(
+        LogLevel::Info,
+        format!("Starting server on {}", bind_address),
+        Some("server".to_string()),
+    );
 
     // Ensure directories exist
     std::fs::create_dir_all("./uploads").ok();
     std::fs::create_dir_all("./logos").ok();
     std::fs::create_dir_all("./backgrounds").ok();
     std::fs::create_dir_all("./avatars").ok();
+    
+    tui_logger.log(
+        LogLevel::Debug,
+        "Created required directories".to_string(),
+        Some("filesystem".to_string()),
+    );
 
     // Start background cleanup task
     let cleanup_pool = db_pool.clone();
+    let cleanup_logger = Arc::clone(&tui_logger);
     tokio::spawn(async move {
+        cleanup_logger.log(
+            LogLevel::Info,
+            "Started background cleanup task".to_string(),
+            Some("cleanup".to_string()),
+        );
         handlers::admin::cleanup_expired_uploads(cleanup_pool).await;
     });
+
+    // Clone logger for request handling
+    let request_logger = Arc::clone(&tui_logger);
+
+    tui_logger.log(
+        LogLevel::Info,
+        format!("🚀 Server is now running and accepting connections on {}", bind_address),
+        Some("server".to_string()),
+    );
 
     // Start HTTP server
     HttpServer::new(move || {
@@ -81,6 +136,7 @@ async fn main() -> std::io::Result<()> {
             .max_age(3600);
 
         App::new()
+            .wrap(TuiLogging::new(Arc::clone(&request_logger)))
             .wrap(Logger::default())
             .wrap(cors)
             .wrap(middleware::SecurityHeaders)
