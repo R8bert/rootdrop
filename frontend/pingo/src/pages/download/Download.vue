@@ -77,7 +77,6 @@
               <!-- Status badge -->
               <div class="inline-flex items-center gap-3 px-6 py-3 rounded-full border backdrop-blur-sm"
                    :class="isDark ? 'bg-neutral-700/30 border-neutral-600/40' : 'bg-neutral-200/50 border-neutral-300/40'">
-                <div class="w-3 h-3 bg-neutral-500 rounded-full animate-pulse"></div>
                 <span class="text-sm font-semibold"
                       :class="isDark ? 'text-neutral-300' : 'text-neutral-700'">
                   {{ files.length }} file{{ files.length > 1 ? 's' : '' }} ready
